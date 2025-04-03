@@ -1,0 +1,24 @@
+0000000000001139 <main>:
+    1139:       f3 0f 1e fa             endbr64                 ; Indirect branch protection instruction
+    113d:       55                      push   %rbp             ; Save the base pointer of the caller
+    113e:       48 89 e5                mov    %rsp, %rbp       ; Set up the base pointer for this function
+    1141:       48 83 ec 10             sub    $0x10, %rsp      ; Allocate 16 bytes on the stack for local variables
+    1145:       be 03 00 00 00          mov    $0x3, %esi       ; Move the value 3 into the ESI register (second argument)
+    114a:       bf 02 00 00 00          mov    $0x2, %edi       ; Move the value 2 into the EDI register (first argument)
+    114f:       e8 23 00 00 00          call   1177 <add>       ; Call the 'add' function
+    1154:       89 45 fc                mov    %eax, -0x4(%rbp) ; Store the return value (EAX) at [RBP-4]
+    1157:       8b 45 fc                mov    -0x4(%rbp), %eax ; Load the value at [RBP-4] into EAX
+    115a:       89 c6                   mov    %eax, %esi       ; Move the value in EAX to ESI (second argument for printf)
+    115c:       48 8d 05 a1 0e 00 00    lea    0xea1(%rip), %rax; Load the address of the format string into RAX
+    1163:       48 89 c7                mov    %rax, %rdi       ; Move the address of the format string to RDI (first argument for printf)
+    1166:       b8 00 00 00 00          mov    $0x0, %eax       ; Clear the EAX register (for variadic functions like printf)
+    116b:       e8 c0 fe ff ff          call   1030 <printf@plt>; Call the printf function
+    1170:       b8 00 00 00 00          mov    $0x0, %eax       ; Set the return value of main to 0
+    1175:       c9                      leave                   ; Restore the caller's stack frame
+    1176:       c3                      ret                     ; Return to the caller
+
+0000000000001177 <add>:
+    1177:       48 89 f8                mov    %rdi, %rax       ; Move the first argument (RDI) to RAX
+    117a:       48 01 f0                add    %rsi, %rax       ; Add the second argument (RSI) to RAX
+    117d:       c3                      ret                     ; Return to the caller with the result in RAX
+

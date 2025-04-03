@@ -1,0 +1,31 @@
+0000000000001149 <main>:
+    1149:       f3 0f 1e fa             endbr64                 ; Indirect branch protection (Control-flow Enforcement Technology)
+    114d:       55                      push   %rbp             ; Save the current base pointer (RBP) on the stack
+    114e:       48 89 e5                mov    %rsp, %rbp       ; Set RBP to the current stack pointer (RSP) to establish a new stack frame
+    1151:       48 83 ec 10             sub    $0x10, %rsp      ; Allocate 16 bytes on the stack for local variables
+    1155:       be 03 00 00 00          mov    $0x3, %esi       ; Load the value 3 into the ESI register (second function parameter)
+    115a:       bf 02 00 00 00          mov    $0x2, %edi       ; Load the value 2 into the EDI register (first function parameter)
+    115f:       e8 23 00 00 00          call   1187 <add>       ; Call the 'add' function with the values in EDI and ESI
+    1164:       89 45 fc                mov    %eax, -0x4(%rbp) ; Store the result (return value in EAX) at the memory location [RBP-4]
+    1167:       8b 45 fc                mov    -0x4(%rbp), %eax ; Load the value from [RBP-4] into the EAX register
+    116a:       89 c6                   mov    %eax, %esi       ; Copy the value from EAX to ESI (second parameter for printf)
+    116c:       48 8d 05 91 0e 00 00    lea    0xe91(%rip), %rax; Load the address of the format string for printf into RAX
+    1173:       48 89 c7                mov    %rax, %rdi       ; Set RDI to the address of the format string (first parameter for printf)
+    1176:       b8 00 00 00 00          mov    $0x0, %eax       ; Set EAX to 0 (required for variadic functions like printf)
+    117b:       e8 d0 fe ff ff          call   1050 <printf@plt>; Call printf
+    1180:       b8 00 00 00 00          mov    $0x0, %eax       ; Set the return value of main to 0 (success status)
+    1185:       c9                      leave                   ; Restore the previous stack frame (equivalent to 'mov %rbp, %rsp' and 'pop %rbp')
+    1186:       c3                      ret                     ; Return to the calling function
+
+0000000000001187 <add>:
+    1187:       f3 0f 1e fa             endbr64                 ; Indirect branch protection
+    118b:       55                      push   %rbp             ; Save the current base pointer on the stack
+    118c:       48 89 e5                mov    %rsp, %rbp       ; Set RBP to the current stack pointer to establish a new stack frame
+    118f:       89 7d fc                mov    %edi, -0x4(%rbp) ; Store the first parameter (from EDI) on the stack at [RBP-4]
+    1192:       89 75 f8                mov    %esi, -0x8(%rbp) ; Store the second parameter (from ESI) on the stack at [RBP-8]
+    1195:       8b 55 fc                mov    -0x4(%rbp), %edx ; Load the value from [RBP-4] into the EDX register
+    1198:       8b 45 f8                mov    -0x8(%rbp), %eax ; Load the value from [RBP-8] into the EAX register
+    119b:       01 d0                   add    %edx, %eax       ; Add EDX to EAX (perform the addition of the two parameters)
+    119d:       5d                      pop    %rbp             ; Restore the previous value of RBP
+    119e:       c3                      ret                     ; Return to the calling function, result is in EAX
+
