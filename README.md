@@ -8,6 +8,7 @@
 --->
 
 # Comparing Object Files from GAS and GCC
+AS
 
 ## 1) Introduction  
 > 🔍 Understanding the difference between hand-written assembly and compiler-generated code gives you insight into how programming abstractions are translated into machine-level instructions.
